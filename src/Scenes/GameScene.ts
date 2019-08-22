@@ -1,8 +1,9 @@
 import Phaser from "phaser";
 import Paddle from "../Prefabs/Paddle";
 import Ball from "../Prefabs/Ball";
-import RectangleRed from "../Prefabs/Blocks/RectangleRed";
 import BaseRectangle from "../Prefabs/Blocks/BaseRectangle";
+import Rectangles from "../Prefabs/Blocks";
+
 
 export default class GameScene extends Phaser.Scene {
 
@@ -12,7 +13,7 @@ export default class GameScene extends Phaser.Scene {
     public preload() {
         Paddle.Preload(this);
         Ball.Preload(this);
-        RectangleRed.Preload(this);
+        Rectangles.forEach((rectangle) => rectangle.Preload(this));
     }
 
     public create() {
