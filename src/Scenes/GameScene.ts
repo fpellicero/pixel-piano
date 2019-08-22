@@ -3,20 +3,18 @@ import Paddle from "../Prefabs/Paddle";
 import Ball from "../Prefabs/Ball";
 import BaseRectangle from "../Prefabs/Blocks/BaseRectangle";
 import Rectangles from "../Prefabs/Blocks";
-import ProgressBar from "../Prefabs/ProgressBar";
+import withProgressBar from "../Enhancers/withProgressBar";
 
-
+@withProgressBar
 export default class GameScene extends Phaser.Scene {
 
     private Paddle: Paddle;
     private Ball: Ball;
 
-    public preload() {
+    public preload() {        
         Paddle.Preload(this);
         Ball.Preload(this);
         Rectangles.forEach((rectangle) => rectangle.Preload(this));
-
-        new ProgressBar(this);
     }
 
     public create() {
