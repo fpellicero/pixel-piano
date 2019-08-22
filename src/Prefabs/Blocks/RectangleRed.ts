@@ -4,7 +4,7 @@ import BaseRectangle from "./BaseRectangle";
 export default class RectangleRed extends BaseRectangle {
     private static assetKey = "rectangle-red";
     public static Preload(scene: Phaser.Scene) {
-        scene.load.image(RectangleRed.assetKey, "assets/png/element_blue_rectangle.png");
+        scene.load.image(RectangleRed.assetKey, "assets/png/element_red_rectangle.png");
     }
 
     constructor(scene: Phaser.Scene, x: number, y: number) {

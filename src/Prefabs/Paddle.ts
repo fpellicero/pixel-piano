@@ -1,6 +1,10 @@
 import Phaser from "phaser";
 import Ball from "./Ball";
 
+interface IPaddleOptions {
+    autoPlay?: boolean;
+}
+
 export default class Paddle extends Phaser.Physics.Arcade.Sprite {
     private static assetKey = "paddle";
 
@@ -8,19 +12,17 @@ export default class Paddle extends Phaser.Physics.Arcade.Sprite {
         scene.load.image(Paddle.assetKey, "assets/png/paddleRed.png");
     }
 
-    private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
-    private velocity = 1000;
+    private autoPlay: boolean;
     private Bounce: Phaser.Tweens.Tween;
 
-    constructor(scene: Phaser.Scene, x: number, y: number) {
+    constructor(scene: Phaser.Scene, x: number, y: number, {autoPlay = false}: IPaddleOptions = {}) {
         super(scene, x, y, Paddle.assetKey);
+        this.autoPlay = autoPlay;
 
         scene.add.existing(this);
         scene.physics.world.enableBody(this);
         this.setCollideWorldBounds(true);
         this.setImmovable(true);
-
-        this.cursors = scene.input.keyboard.createCursorKeys();
 
         this.Bounce = this.scene.add.tween({
             targets: this,
@@ -36,17 +38,9 @@ export default class Paddle extends Phaser.Physics.Arcade.Sprite {
     }
 
     update (delta: number) {
-        this.setX(this.scene.input.mouse.manager.activePointer.x);
-
-        // TODO: Make cursor controls
-        if (this.cursors.left.isDown) {
-            this.setVelocityX(this.velocity * -1);
-        }else if (this.cursors.right.isDown) {
-            this.setVelocityX(this.velocity);
-        }else {
-            this.setVelocity(0);
+        if(!this.autoPlay) {
+            this.setX(this.scene.input.mouse.manager.activePointer.x);
         }
-
     }
 
     public Collision(paddle: Paddle, ball: Ball) {
@@ -54,6 +48,6 @@ export default class Paddle extends Phaser.Physics.Arcade.Sprite {
         
         const collisionOffset = ball.x - paddle.x;
         
-        ball.setVelocityX(collisionOffset * 15);
+        ball.setVelocityX(ball.body.velocity.x + collisionOffset * 15);
     }
 }

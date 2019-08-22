@@ -3,6 +3,7 @@ import Paddle from "../Prefabs/Paddle";
 import Ball from "../Prefabs/Ball";
 import BaseRectangle from "../Prefabs/Blocks/BaseRectangle";
 import Rectangles from "../Prefabs/Blocks";
+import ProgressBar from "../Prefabs/ProgressBar";
 
 
 export default class GameScene extends Phaser.Scene {
@@ -14,6 +15,8 @@ export default class GameScene extends Phaser.Scene {
         Paddle.Preload(this);
         Ball.Preload(this);
         Rectangles.forEach((rectangle) => rectangle.Preload(this));
+
+        new ProgressBar(this);
     }
 
     public create() {
@@ -34,8 +37,8 @@ export default class GameScene extends Phaser.Scene {
     }
 
     private generateRectangles() {
-        const rows = 5;
-        const blocksPerRow = 6;
+        const rows = 10;
+        const blocksPerRow = 12;
 
         const blockSize = {
             width: 64,
@@ -49,7 +52,8 @@ export default class GameScene extends Phaser.Scene {
                 const x = blockSize.width / 2 + blockSize.width * j;
                 const y = blockSize.height / 2 + blockSize.height * i;
 
-                rectangles.push(new RectangleRed(this, x, y));
+                const rectangle = Rectangles[Math.floor(Math.random() * Rectangles.length)];
+                rectangles.push(new rectangle(this, x, y));
                 
             }
         }
