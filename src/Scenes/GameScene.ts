@@ -15,6 +15,7 @@ export default class GameScene extends Phaser.Scene {
         Paddle.Preload(this);
         Ball.Preload(this);
         Rectangles.forEach((rectangle) => rectangle.Preload(this));
+        BaseRectangle.Preload(this);
     }
 
     public create() {
