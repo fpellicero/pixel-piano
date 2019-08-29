@@ -1,22 +1,26 @@
 import Phaser from "phaser";
-import Ball from "./Ball";
 
 interface IPaddleOptions {
     autoPlay?: boolean;
+    type?: "red" | "blue";
 }
 
 export default class Paddle extends Phaser.Physics.Arcade.Sprite {
-    private static assetKey = "paddle";
+    private static assetKeys = {
+        red: "paddle-red",
+        blue: "paddle-blue"
+    };
 
     public static Preload(scene: Phaser.Scene) {
-        scene.load.image(Paddle.assetKey, "assets/png/paddleRed.png");
+        scene.load.image(Paddle.assetKeys["red"], "assets/png/paddleRed.png");
+        scene.load.image(Paddle.assetKeys["blue"], "assets/png/paddleBlue.png");
     }
 
     private autoPlay: boolean;
-    private Bounce: Phaser.Tweens.Tween;
+    public Bounce: Phaser.Tweens.Tween;
 
-    constructor(scene: Phaser.Scene, x: number, y: number, {autoPlay = false}: IPaddleOptions = {}) {
-        super(scene, x, y, Paddle.assetKey);
+    constructor(scene: Phaser.Scene, x: number, y: number, {autoPlay = false, type = "red"}: IPaddleOptions = {}) {
+        super(scene, x, y, Paddle.assetKeys[type]);
         this.autoPlay = autoPlay;
 
         scene.add.existing(this);
@@ -41,13 +45,5 @@ export default class Paddle extends Phaser.Physics.Arcade.Sprite {
         if(!this.autoPlay) {
             this.setX(this.scene.input.mouse.manager.activePointer.x);
         }
-    }
-
-    public Collision(paddle: Paddle, ball: Ball) {
-        paddle.Bounce.play();
-        
-        const collisionOffset = ball.x - paddle.x;
-        
-        ball.setVelocityX(ball.body.velocity.x + collisionOffset * 15);
     }
 }
