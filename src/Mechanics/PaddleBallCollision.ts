@@ -8,6 +8,7 @@ function PaddleBallCollision(paddle: Paddle, ball: Ball) {
     const collisionOffset = ball.x - paddle.x;
     
     ball.setVelocityX(ball.body.velocity.x + collisionOffset * 15);
+    ball.Color = paddle.Color;
 }
 
 export default PaddleBallCollision;

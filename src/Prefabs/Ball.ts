@@ -7,6 +7,7 @@ export default class Ball extends Phaser.Physics.Arcade.Sprite {
         scene.load.image(Ball.assetKey, "assets/png/ballGrey.png");
     }
 
+    public Color: "red" | "blue";
     private speedY = 500;
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
@@ -21,6 +22,4 @@ export default class Ball extends Phaser.Physics.Arcade.Sprite {
 
         this.setDragX(50);
     }
-
-
 }

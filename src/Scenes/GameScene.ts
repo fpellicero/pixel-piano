@@ -75,5 +75,11 @@ export default class GameScene extends Phaser.Scene {
 
     onBallCollision(ball: Ball, rectangle: BaseRectangle) {
         rectangle.destroy();
+
+        const registryScoreKey = `score-${ball.Color}`;
+        const currentScore = this.registry.get(registryScoreKey) || 0;
+
+        this.registry.set(registryScoreKey, currentScore + 1);
+
     }
 }
