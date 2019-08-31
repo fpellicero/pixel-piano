@@ -5,13 +5,14 @@ import BaseRectangle from "../Prefabs/Blocks/BaseRectangle";
 import Rectangles from "../Prefabs/Blocks";
 import withProgressBar from "../Enhancers/withProgressBar";
 import PaddleBallCollision from "../Mechanics/PaddleBallCollision";
+import Balls from "../Prefabs/Balls";
 
 @withProgressBar
 export default class GameScene extends Phaser.Scene {
 
     private Player1: Paddle;
     private Player2: Paddle;
-    private Ball: Ball;
+    private Balls: Phaser.GameObjects.Group
 
     public preload() {        
         Paddle.Preload(this);
@@ -27,10 +28,12 @@ export default class GameScene extends Phaser.Scene {
         this.Player1 = new Paddle(this, centerX, paddleY);
         this.Player2 = new Paddle(this, centerX, 50, {type: "blue"/*, autoPlay: true*/});
 
-        this.Ball = new Ball(this, centerX, paddleY + 100);
+        this.Balls = new Balls(this);
 
-        this.physics.add.collider(this.Player1, this.Ball, PaddleBallCollision);
-        this.physics.add.collider(this.Player2, this.Ball, PaddleBallCollision);
+        this.add.group()
+
+        this.physics.add.collider(this.Player1, this.Balls, PaddleBallCollision);
+        this.physics.add.collider(this.Player2, this.Balls, PaddleBallCollision);
 
         this.generateRectangles();
     }
@@ -54,7 +57,7 @@ export default class GameScene extends Phaser.Scene {
             y: this.cameras.main.height / 2 - (rows * blockSize.height / 2)
         }
 
-        const rectangles: BaseRectangle[] = [];
+        const rectangles: Phaser.GameObjects.Group = this.add.group();
 
         for (let i = 0; i < rows; i++) {
             for (let j = 0; j < blocksPerRow; j++) {
@@ -62,17 +65,15 @@ export default class GameScene extends Phaser.Scene {
                 const y = blockSize.height / 2 + blockSize.height * i;
 
                 const rectangle = Rectangles[Math.floor(Math.random() * Rectangles.length)];
-                rectangles.push(new rectangle(this, initialPoint.x + x, initialPoint.y + y));
+                rectangles.add(new rectangle(this, initialPoint.x + x, initialPoint.y + y));
                 
             }
         }
 
-        rectangles.forEach((rectangle) => {
-            this.physics.add.collider(this.Ball, rectangle, this.onBallCollision);
-        })
+        this.physics.add.collider(this.Balls, rectangles, this.onBallCollision, null, this);
     }
 
-    onBallCollision(Ball: Ball, rectangle: BaseRectangle) {
+    onBallCollision(ball: Ball, rectangle: BaseRectangle) {
         rectangle.destroy();
     }
 }

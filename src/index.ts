@@ -1,11 +1,11 @@
 import Phaser from "phaser";
-import DefaultScene from "./Scenes/GameScene";
+import GameScene from "./Scenes/GameScene";
 
 const game = new Phaser.Game({
     type: Phaser.AUTO,
     width: 384 * 2,
     height: 640 * 2,
-    scene: DefaultScene,
+    scene: [GameScene],
     physics: {
         default: "arcade",
         arcade: {

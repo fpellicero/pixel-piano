@@ -18,10 +18,12 @@ export default class Paddle extends Phaser.Physics.Arcade.Sprite {
 
     private autoPlay: boolean;
     public Bounce: Phaser.Tweens.Tween;
+    public Type: "red" | "blue";
 
     constructor(scene: Phaser.Scene, x: number, y: number, {autoPlay = false, type = "red"}: IPaddleOptions = {}) {
         super(scene, x, y, Paddle.assetKeys[type]);
         this.autoPlay = autoPlay;
+        this.Type = type;
 
         scene.add.existing(this);
         scene.physics.world.enableBody(this);
