@@ -25,10 +25,15 @@ export default class GameScene extends Phaser.Scene {
         const centerX = parseInt(this.game.config.width as string)/2;
         const paddleY = parseInt(this.game.config.height as string) - 50;
 
-        this.Player1 = new Paddle(this, centerX, paddleY);
-        this.Player2 = new Paddle(this, centerX, 50, {type: "blue"/*, autoPlay: true*/});
-
         this.Balls = new Balls(this);
+
+        this.Player1 = new Paddle(this, centerX, paddleY, {autoPlay: true, balls: this.Balls});
+        this.Player2 = new Paddle(this, centerX, 50, {
+            type: "blue", 
+            autoPlay: true,
+            balls: this.Balls
+        });
+
 
         this.add.group()
 

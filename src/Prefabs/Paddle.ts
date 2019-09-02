@@ -1,8 +1,11 @@
 import Phaser from "phaser";
+import Balls from "./Balls";
+import Ball from "./Ball";
 
 interface IPaddleOptions {
     autoPlay?: boolean;
     type?: "red" | "blue";
+    balls?: Balls
 }
 
 export default class Paddle extends Phaser.Physics.Arcade.Sprite {
@@ -17,13 +20,20 @@ export default class Paddle extends Phaser.Physics.Arcade.Sprite {
     }
 
     private autoPlay: boolean;
+    private balls: Balls;
     public Bounce: Phaser.Tweens.Tween;
     public Color: "red" | "blue";
 
-    constructor(scene: Phaser.Scene, x: number, y: number, {autoPlay = false, type = "red"}: IPaddleOptions = {}) {
+    constructor(scene: Phaser.Scene, x: number, y: number, {autoPlay = false, type = "red", balls}: IPaddleOptions = {}) {
         super(scene, x, y, Paddle.assetKeys[type]);
+
+        if(autoPlay && !balls) {
+            throw new Error("Paddle set to autoPlay without providing Balls reference.");
+        }
+
         this.autoPlay = autoPlay;
         this.Color = type;
+        this.balls = balls;
 
         scene.add.existing(this);
         scene.physics.world.enableBody(this);
@@ -44,8 +54,41 @@ export default class Paddle extends Phaser.Physics.Arcade.Sprite {
     }
 
     update (delta: number) {
-        if(!this.autoPlay) {
-            this.setX(this.scene.input.mouse.manager.activePointer.x);
+        if (this.autoPlay) {
+            this.IAControl();
+        } else {
+            this.cursorControl()
         }
+    }
+
+    private IAControl (): void {
+        const closestBall = this.getClosestBall();
+
+        if(closestBall.x > this.x) {
+            const ballOffset = closestBall.x - this.x;
+            this.setVelocityX(10*ballOffset);
+            return;
+        }
+
+        if(closestBall.x < this.x) {
+            const ballOffset = this.x - closestBall.x;
+            this.setVelocityX(-10*ballOffset);
+            return;
+        }
+
+        this.setVelocityX(0);
+    }
+
+    private cursorControl(): void {
+        this.setX(this.scene.input.mouse.manager.activePointer.x);
+    }
+
+    private getClosestBall(): Ball {
+        const balls = (this.balls.children.entries as Ball[])
+            .map((item) => ({ball: item, distance: Math.abs(this.y - item.y)}))
+            .sort((a, b) => a.distance - b.distance)
+            .map(({ball}) => ball);
+
+        return balls[0];
     }
 }
