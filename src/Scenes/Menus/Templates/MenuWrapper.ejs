@@ -1,0 +1,7 @@
+<div class="game-menu">
+    <% items.forEach(function (item) { %>
+        <div class="game-menu__item<%= item.focused ? " --active " : " " %>" data-key="<%= item.key %>">
+            <%= item.label %>
+        </div>
+        <% }) %>
+</div>

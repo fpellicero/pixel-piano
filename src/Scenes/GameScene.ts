@@ -6,9 +6,11 @@ import Rectangles from "../Prefabs/Blocks";
 import withProgressBar from "../Enhancers/withProgressBar";
 import PaddleBallCollision from "../Mechanics/PaddleBallCollision";
 import Balls from "../Prefabs/Balls";
+import HudScene from "./HudScene";
 
 @withProgressBar
 export default class GameScene extends Phaser.Scene {
+    public static key = "game-scene";
 
     private Player1: Paddle;
     private Player2: Paddle;
@@ -22,6 +24,12 @@ export default class GameScene extends Phaser.Scene {
     }
 
     public create() {
+        this.scene.add(
+            HudScene.key,
+            new HudScene(),
+            true
+        )
+
         const centerX = parseInt(this.game.config.width as string)/2;
         const paddleY = parseInt(this.game.config.height as string) - 50;
 

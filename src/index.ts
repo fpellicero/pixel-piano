@@ -1,14 +1,14 @@
 import Phaser from "phaser";
-import GameScene from "./Scenes/GameScene";
-import HudScene from "./Scenes/HudScene";
+import MainMenu from "./Scenes/Menus/MainMenuScene";
 
-const game = new Phaser.Game({
+
+new Phaser.Game({
+    parent: "game-root",
     type: Phaser.AUTO,
     width: 384 * 2,
     height: 640 * 2,
     scene: [
-        GameScene,
-        HudScene
+        MainMenu
     ],
     physics: {
         default: "arcade",

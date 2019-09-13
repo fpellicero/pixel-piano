@@ -1,6 +1,8 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 module.exports = {
     entry: "./src",
@@ -10,19 +12,39 @@ module.exports = {
         filename: "app.min.js"
     },
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /.ts$/,
                 exclude: /(node_modules|dist)/,
                 loader: 'ts-loader'
-            }
+            },
+            {
+                test: /.ejs$/,
+                loader: "ejs-compiled-loader"
+            },
+            {
+                test: /\.css$/i,
+                use: [{
+                        loader: MiniCssExtractPlugin.loader
+                    },
+                    'css-loader'
+                ],
+            },
         ]
     },
+    optimization: {
+        usedExports: true
+    },
     plugins: [
-        new HtmlWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            template: "./src/index.html",
+        }),
         new CopyPlugin([
-            {from: "./assets", to: "./assets"}
-        ])
+            { from: "./assets", to: "./assets" }
+        ]),
+        new MiniCssExtractPlugin(),
+        new BundleAnalyzerPlugin({
+            analyzerMode: "static"
+        })
     ],
     resolve: {
         extensions: ['.ts', '.js']

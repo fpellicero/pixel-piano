@@ -5,6 +5,8 @@ const textOptions = {
 };
 
 export default class HudScene extends Phaser.Scene {
+    public static key = "hud-scene";
+    
     private RedScore: Phaser.GameObjects.Text;
     private BlueScore: Phaser.GameObjects.Text;
     
