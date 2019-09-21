@@ -18,12 +18,14 @@ export default class Paddle extends Phaser.Physics.Arcade.Sprite {
         scene.load.image(Paddle.assetKeys["red"], "assets/png/paddleRed.png");
         scene.load.image(Paddle.assetKeys["blue"], "assets/png/paddleBlue.png");
     }
-
-    private autoPlay: boolean;
-    private balls: Balls;
     public Bounce: Phaser.Tweens.Tween;
     public Color: "red" | "blue";
 
+
+    private autoPlay: boolean;
+    private balls: Balls;
+    private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+    private speedX = 750;
     constructor(scene: Phaser.Scene, x: number, y: number, {autoPlay = false, type = "red", balls}: IPaddleOptions = {}) {
         super(scene, x, y, Paddle.assetKeys[type]);
 
@@ -51,16 +53,19 @@ export default class Paddle extends Phaser.Physics.Arcade.Sprite {
             },
             paused: true,
         });
+
+        this.cursors = this.scene.input.keyboard.createCursorKeys();
     }
 
     update (delta: number) {
         if (this.autoPlay) {
             this.IAControl();
         } else {
-            this.cursorControl()
+            this.manualControls()
         }
     }
 
+    // TODO: Should make IA a bit worse. It never fails.
     private IAControl (): void {
         const closestBall = this.getClosestBall();
 
@@ -79,8 +84,43 @@ export default class Paddle extends Phaser.Physics.Arcade.Sprite {
         this.setVelocityX(0);
     }
 
-    private cursorControl(): void {
-        this.setX(this.scene.input.mouse.manager.activePointer.x);
+    private manualControls(): void {
+        const { activePointer } = this.scene.input.mouse.manager;
+        const { left, right } = this.cursors;
+        
+
+        if (activePointer.isDown) {
+            this.touchControls();
+            return;
+        }
+
+        if (left.isDown || right.isDown) { 
+            this.keyboardControls();
+            return; 
+        }
+
+        this.setVelocityX(0);
+    }
+
+    private touchControls(): void {
+        const { activePointer } = this.scene.input.mouse.manager;
+        const centerX = this.scene.cameras.main.centerX;
+
+        if (activePointer.x > centerX) {
+            this.setVelocityX(this.speedX);
+        } else {
+            this.setVelocityX(this.speedX * -1);
+        }
+    }
+
+    private keyboardControls(): void {
+        const { right } = this.cursors;
+
+        if (right.isDown) {
+            this.setVelocityX(this.speedX);
+        } else {
+            this.setVelocityX(this.speedX * -1);
+        }
     }
 
     private getClosestBall(): Ball {
