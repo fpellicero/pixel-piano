@@ -6,6 +6,7 @@ export function StarsExplosionPreload(scene: Phaser.Scene) {
     scene.load.image(particleAssetKey, "assets/png/particleStar.png");
 }
 
+// TODO: Pool the emitters for performance gains and memory optimization
 function StarsExplosion (scene: Phaser.Scene, x: number, y: number) {
     const particles = scene.add.particles(particleAssetKey);
 

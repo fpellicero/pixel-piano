@@ -42,9 +42,9 @@ module.exports = {
             { from: "./assets", to: "./assets" }
         ]),
         new MiniCssExtractPlugin(),
-        new BundleAnalyzerPlugin({
+        /* new BundleAnalyzerPlugin({
             analyzerMode: "static"
-        })
+        }) */
     ],
     resolve: {
         extensions: ['.ts', '.js']

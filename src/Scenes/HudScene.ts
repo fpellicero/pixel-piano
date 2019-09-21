@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { PlayerScore } from "../RegistryKeys";
 
 const textOptions = {
     font: "32px Arial"
@@ -29,11 +30,11 @@ export default class HudScene extends Phaser.Scene {
         updateScores(_, key: string, data: number) {
             console.log(key, data);
             switch (key) {
-                case "score-red":
+                case PlayerScore("red"):
                     this.RedScore.setText(data.toString());    
                     break;
                 
-                case "score-blue":
+                case PlayerScore("blue"):
                     this.BlueScore.setText(data.toString());
                     break;
                 default:

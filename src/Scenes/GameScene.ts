@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+import Phaser, { Physics } from "phaser";
 import Paddle from "../Prefabs/Paddle";
 import Ball from "../Prefabs/Ball";
 import BaseRectangle from "../Prefabs/Blocks/BaseRectangle";
@@ -7,6 +7,7 @@ import withProgressBar from "../Enhancers/withProgressBar";
 import PaddleBallCollision from "../Mechanics/PaddleBallCollision";
 import Balls from "../Prefabs/Balls";
 import HudScene from "./HudScene";
+import { PlayerScore } from "../RegistryKeys";
 
 @withProgressBar
 export default class GameScene extends Phaser.Scene {
@@ -14,7 +15,7 @@ export default class GameScene extends Phaser.Scene {
 
     private Player1: Paddle;
     private Player2: Paddle;
-    private Balls: Phaser.GameObjects.Group
+    private Balls: Balls;
 
     public preload() {        
         Paddle.Preload(this);
@@ -35,25 +36,27 @@ export default class GameScene extends Phaser.Scene {
 
         this.Balls = new Balls(this);
 
-        this.Player1 = new Paddle(this, centerX, paddleY, {autoPlay: true, balls: this.Balls});
+        this.Player1 = new Paddle(this, centerX, paddleY, {autoPlay: false, balls: this.Balls});
         this.Player2 = new Paddle(this, centerX, 50, {
             type: "blue", 
             autoPlay: true,
             balls: this.Balls
         });
 
-
-        this.add.group()
-
         this.physics.add.collider(this.Player1, this.Balls, PaddleBallCollision);
         this.physics.add.collider(this.Player2, this.Balls, PaddleBallCollision);
 
         this.generateRectangles();
+
+        this.physics.world.checkCollision.down = false;
+        this.physics.world.checkCollision.up = false;
     }
 
     public update(time: number, delta: number) {
         this.Player1.update(delta);
         this.Player2.update(delta);
+
+        this.Balls.children.entries.forEach(b => b.update());
     }
 
     private generateRectangles() {
@@ -89,10 +92,7 @@ export default class GameScene extends Phaser.Scene {
     onBallCollision(ball: Ball, rectangle: BaseRectangle) {
         rectangle.destroy();
 
-        const registryScoreKey = `score-${ball.Color}`;
-        const currentScore = this.registry.get(registryScoreKey) || 0;
-
-        this.registry.set(registryScoreKey, currentScore + 1);
-
+        const currentScore = this.registry.get(PlayerScore(ball.Color)) || 0;
+        this.registry.set(PlayerScore(ball.Color), currentScore + 1);
     }
 }
