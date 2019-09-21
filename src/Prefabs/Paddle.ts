@@ -41,6 +41,7 @@ export default class Paddle extends Phaser.Physics.Arcade.Sprite {
         scene.physics.world.enableBody(this);
         this.setCollideWorldBounds(true);
         this.setImmovable(true);
+        this.setScale(1.5, 1);
 
         this.Bounce = this.scene.add.tween({
             targets: this,
@@ -104,9 +105,18 @@ export default class Paddle extends Phaser.Physics.Arcade.Sprite {
 
     private touchControls(): void {
         const { activePointer } = this.scene.input.mouse.manager;
-        const centerX = this.scene.cameras.main.centerX;
 
-        if (activePointer.x > centerX) {
+        const deadZone = {
+            min: this.x - 15,
+            max: this.x + 15,
+        };
+
+        if (activePointer.x > deadZone.min && activePointer.x < deadZone.max) { 
+            this.setVelocityX(0);
+            return;
+         }
+
+        if (activePointer.x > this.x) {
             this.setVelocityX(this.speedX);
         } else {
             this.setVelocityX(this.speedX * -1);
