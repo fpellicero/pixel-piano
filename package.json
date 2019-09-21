@@ -1,21 +1,21 @@
 {
-    "name": "phaser3-tutorial",
+    "name": "@fpellicero/arkapong",
     "version": "1.0.0",
-    "description": "",
+    "description": "An Arkanoid and Pong mashup made with Phaser 3.",
     "main": "index.js",
     "scripts": {
         "dev": "webpack-dev-server --mode development",
         "build": "webpack --mode=production",
         "start": "serve -s dist"
     },
-    "author": "",
+    "author": "Francesc Pellicero <fpellicero@gmail.com> (https://github.com/fpellicero)",
     "license": "ISC",
-    "dependencies": {},
     "devDependencies": {
         "copy-webpack-plugin": "^5.0.4",
         "css-loader": "^3.2.0",
         "ejs-compiled-loader": "^1.1.0",
         "html-webpack-plugin": "^3.2.0",
+        "husky": "^3.0.5",
         "mini-css-extract-plugin": "^0.8.0",
         "phaser": "^3.19.0",
         "source-map-loader": "^0.2.4",
