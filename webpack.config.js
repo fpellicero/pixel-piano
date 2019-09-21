@@ -6,7 +6,6 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPl
 
 module.exports = {
     entry: "./src",
-    devtool: "eval",
     output: {
         path: path.resolve(__dirname, "dist"),
         filename: "app.min.js"

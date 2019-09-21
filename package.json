@@ -4,7 +4,8 @@
     "description": "An Arkanoid and Pong mashup made with Phaser 3.",
     "main": "index.js",
     "scripts": {
-        "dev": "webpack-dev-server --mode development",
+        "dev": "webpack-dev-server --mode=development",
+        "start": "npm run build && serve -s dist",
         "build": "webpack --mode=production"
     },
     "author": "Francesc Pellicero <fpellicero@gmail.com> (https://github.com/fpellicero)",
@@ -22,6 +23,7 @@
         "husky": "^3.0.5",
         "mini-css-extract-plugin": "^0.8.0",
         "phaser": "^3.19.0",
+        "serve": "^11.1.0",
         "source-map-loader": "^0.2.4",
         "ts-loader": "^6.0.4",
         "typescript": "3.3.3",
