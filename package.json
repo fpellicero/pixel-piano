@@ -10,7 +10,9 @@
     "author": "Francesc Pellicero <fpellicero@gmail.com> (https://github.com/fpellicero)",
     "license": "ISC",
     "husky": {
-        "pre-commit": "npm run build"
+        "hooks": {
+            "pre-commit": "npm run build"
+        }
     },
     "devDependencies": {
         "copy-webpack-plugin": "^5.0.4",
