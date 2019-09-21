@@ -5,11 +5,14 @@
     "main": "index.js",
     "scripts": {
         "dev": "webpack-dev-server --mode development",
-        "build": "webpack --mode=production"
+        "build": "webpack --mode=production",
+        "start": "serve -s dist"
     },
     "author": "",
     "license": "ISC",
-    "dependencies": {},
+    "dependencies": {
+        "serve": "^11.1.0"
+    },
     "devDependencies": {
         "copy-webpack-plugin": "^5.0.4",
         "css-loader": "^3.2.0",
