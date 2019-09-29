@@ -21,12 +21,12 @@ export default class Paddle extends Phaser.Physics.Arcade.Sprite {
     public Bounce: Phaser.Tweens.Tween;
     public Color: "red" | "blue";
     public powerUpActive = false;
+    public speedX = 750;
 
 
     private autoPlay: boolean;
     private balls: Balls;
     private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
-    private speedX = 750;
     constructor(scene: Phaser.Scene, x: number, y: number, {autoPlay = false, type = "red", balls}: IPaddleOptions = {}) {
         super(scene, x, y, Paddle.assetKeys[type]);
 

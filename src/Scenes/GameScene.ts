@@ -1,4 +1,4 @@
-import Phaser, { Physics } from "phaser";
+import Phaser from "phaser";
 import Paddle from "../Prefabs/Paddle";
 import Ball from "../Prefabs/Ball";
 import BaseRectangle from "../Prefabs/Blocks/BaseRectangle";
@@ -8,10 +8,10 @@ import PaddleBallCollision from "../Mechanics/PaddleBallCollision";
 import Balls from "../Prefabs/Balls";
 import HudScene from "./HudScene";
 import { PlayerScore } from "../RegistryKeys";
-import Invincible from "../Prefabs/Powerups/Invincible";
-import PowerUp, { EPowerUpType } from "../Prefabs/Powerups/PowerUp";
+import PowerUp from "../Prefabs/Powerups/PowerUp";
 import SpawnPowerup from "../Mechanics/SpawnPowerup";
 import CollectPowerUp from "../Mechanics/CollectPowerUp";
+import Freeze from "../Prefabs/Powerups/Freeze";
 
 @withProgressBar
 export default class GameScene extends Phaser.Scene {
@@ -56,8 +56,8 @@ export default class GameScene extends Phaser.Scene {
 
         this.PowerUps = this.add.group();
 
-        this.physics.add.collider(this.Player1, this.PowerUps, CollectPowerUp);
-        this.physics.add.collider(this.Player2, this.PowerUps, CollectPowerUp);
+        this.physics.add.collider(this.Player1, this.PowerUps, CollectPowerUp(this.Player1, this.Player2));
+        this.physics.add.collider(this.Player2, this.PowerUps, CollectPowerUp(this.Player1, this.Player2));
 
         this.physics.world.checkCollision.down = false;
         this.physics.world.checkCollision.up = false;
@@ -97,19 +97,14 @@ export default class GameScene extends Phaser.Scene {
             }
         }
 
-        this.physics.add.collider(this.Balls, rectangles, this.onBallCollision, null, this);
+        this.physics.add.collider(this.Balls, rectangles, this.onBallCollision);
     }
 
-    onBallCollision(ball: Ball, rectangle: BaseRectangle) {
+    onBallCollision = (ball: Ball, rectangle: BaseRectangle) => {
         const newPowerUp = SpawnPowerup(this, rectangle);
         if(newPowerUp) {
-            if(newPowerUp.Type === EPowerUpType.DEFENSIVE) {
-                const powerUpSpeed = ball.Color === "blue" ? -300 : 300;
-                newPowerUp.setVelocityY(powerUpSpeed);
-            } else {
-                const powerUpSpeed = ball.Color === "blue" ? 300 : -300;
-                newPowerUp.setVelocityY(powerUpSpeed);
-            }
+            const powerUpSpeed = ball.Color === "blue" ? -300 : 300;
+            newPowerUp.setVelocityY(powerUpSpeed);
             this.PowerUps.add(newPowerUp);
         }
 

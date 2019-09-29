@@ -4,7 +4,7 @@ import StarsExplosion, { StarsExplosionPreload } from "../../Mechanics/Effects/S
 
 export default abstract class BaseRectangle extends Phaser.Physics.Arcade.Sprite {
     protected assetKey: string;
-    public powerUpDropChance: number = 0.1;
+    public powerUpDropChance: number = 0.5;
     
     
     public static Preload(scene: Phaser.Scene) {
