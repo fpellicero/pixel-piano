@@ -8,6 +8,10 @@ import PaddleBallCollision from "../Mechanics/PaddleBallCollision";
 import Balls from "../Prefabs/Balls";
 import HudScene from "./HudScene";
 import { PlayerScore } from "../RegistryKeys";
+import Invincible from "../Prefabs/Powerups/Invincible";
+import PowerUp, { EPowerUpType } from "../Prefabs/Powerups/PowerUp";
+import SpawnPowerup from "../Mechanics/SpawnPowerup";
+import CollectPowerUp from "../Mechanics/CollectPowerUp";
 
 @withProgressBar
 export default class GameScene extends Phaser.Scene {
@@ -16,12 +20,14 @@ export default class GameScene extends Phaser.Scene {
     private Player1: Paddle;
     private Player2: Paddle;
     private Balls: Balls;
+    private PowerUps: Phaser.GameObjects.Group;
 
     public preload() {        
         Paddle.Preload(this);
         Ball.Preload(this);
         Rectangles.forEach((rectangle) => rectangle.Preload(this));
         BaseRectangle.Preload(this);
+        PowerUp.Preload(this);
     }
 
     public create() {
@@ -47,6 +53,11 @@ export default class GameScene extends Phaser.Scene {
         this.physics.add.collider(this.Player2, this.Balls, PaddleBallCollision);
 
         this.generateRectangles();
+
+        this.PowerUps = this.add.group();
+
+        this.physics.add.collider(this.Player1, this.PowerUps, CollectPowerUp);
+        this.physics.add.collider(this.Player2, this.PowerUps, CollectPowerUp);
 
         this.physics.world.checkCollision.down = false;
         this.physics.world.checkCollision.up = false;
@@ -90,7 +101,20 @@ export default class GameScene extends Phaser.Scene {
     }
 
     onBallCollision(ball: Ball, rectangle: BaseRectangle) {
+        const newPowerUp = SpawnPowerup(this, rectangle);
+        if(newPowerUp) {
+            if(newPowerUp.Type === EPowerUpType.DEFENSIVE) {
+                const powerUpSpeed = ball.Color === "blue" ? -300 : 300;
+                newPowerUp.setVelocityY(powerUpSpeed);
+            } else {
+                const powerUpSpeed = ball.Color === "blue" ? 300 : -300;
+                newPowerUp.setVelocityY(powerUpSpeed);
+            }
+            this.PowerUps.add(newPowerUp);
+        }
+
         rectangle.destroy();
+
 
         const currentScore = this.registry.get(PlayerScore(ball.Color)) || 0;
         this.registry.set(PlayerScore(ball.Color), currentScore + 1);

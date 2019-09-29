@@ -1,0 +1,377 @@
+{
+	"textures": [
+		{
+			"image": "powers.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 204,
+				"h": 102
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "power-freeze.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 32
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 32,
+						"h": 32
+					}
+				},
+				{
+					"filename": "power-invincible.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 32
+					},
+					"frame": {
+						"x": 1,
+						"y": 35,
+						"w": 32,
+						"h": 32
+					}
+				},
+				{
+					"filename": "power-superbounce.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 32
+					},
+					"frame": {
+						"x": 35,
+						"y": 1,
+						"w": 32,
+						"h": 32
+					}
+				},
+				{
+					"filename": "powers-0.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 32
+					},
+					"frame": {
+						"x": 1,
+						"y": 69,
+						"w": 32,
+						"h": 32
+					}
+				},
+				{
+					"filename": "powers-1.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 32
+					},
+					"frame": {
+						"x": 35,
+						"y": 35,
+						"w": 32,
+						"h": 32
+					}
+				},
+				{
+					"filename": "powers-11.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 32
+					},
+					"frame": {
+						"x": 69,
+						"y": 1,
+						"w": 32,
+						"h": 32
+					}
+				},
+				{
+					"filename": "powers-12.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 32
+					},
+					"frame": {
+						"x": 35,
+						"y": 69,
+						"w": 32,
+						"h": 32
+					}
+				},
+				{
+					"filename": "powers-14.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 32
+					},
+					"frame": {
+						"x": 69,
+						"y": 35,
+						"w": 32,
+						"h": 32
+					}
+				},
+				{
+					"filename": "powers-16.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 32
+					},
+					"frame": {
+						"x": 103,
+						"y": 1,
+						"w": 32,
+						"h": 32
+					}
+				},
+				{
+					"filename": "powers-17.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 32
+					},
+					"frame": {
+						"x": 69,
+						"y": 69,
+						"w": 32,
+						"h": 32
+					}
+				},
+				{
+					"filename": "powers-18.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 32
+					},
+					"frame": {
+						"x": 103,
+						"y": 35,
+						"w": 32,
+						"h": 32
+					}
+				},
+				{
+					"filename": "powers-19.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 32
+					},
+					"frame": {
+						"x": 137,
+						"y": 1,
+						"w": 32,
+						"h": 32
+					}
+				},
+				{
+					"filename": "powers-2.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 32
+					},
+					"frame": {
+						"x": 103,
+						"y": 69,
+						"w": 32,
+						"h": 32
+					}
+				},
+				{
+					"filename": "powers-3.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 32
+					},
+					"frame": {
+						"x": 137,
+						"y": 35,
+						"w": 32,
+						"h": 32
+					}
+				},
+				{
+					"filename": "powers-4.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 32
+					},
+					"frame": {
+						"x": 171,
+						"y": 1,
+						"w": 32,
+						"h": 32
+					}
+				},
+				{
+					"filename": "powers-7.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 32
+					},
+					"frame": {
+						"x": 137,
+						"y": 69,
+						"w": 32,
+						"h": 32
+					}
+				},
+				{
+					"filename": "powers-9.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 32
+					},
+					"frame": {
+						"x": 171,
+						"y": 35,
+						"w": 32,
+						"h": 32
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:49e4d9c3e3632cf02e87526a064e67af:215a6f0af1e7b48e7c41c45f32a63559:4ac5064eac15e393b77ddb0360536f13$"
+	}
+}

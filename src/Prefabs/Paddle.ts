@@ -20,6 +20,7 @@ export default class Paddle extends Phaser.Physics.Arcade.Sprite {
     }
     public Bounce: Phaser.Tweens.Tween;
     public Color: "red" | "blue";
+    public powerUpActive = false;
 
 
     private autoPlay: boolean;
@@ -33,15 +34,17 @@ export default class Paddle extends Phaser.Physics.Arcade.Sprite {
             throw new Error("Paddle set to autoPlay without providing Balls reference.");
         }
 
+        
         this.autoPlay = autoPlay;
         this.Color = type;
         this.balls = balls;
-
+        
         scene.add.existing(this);
         scene.physics.world.enableBody(this);
         this.setCollideWorldBounds(true);
         this.setImmovable(true);
         this.setScale(1.5, 1);
+        this.setMaxVelocity(this.speedX);
 
         this.Bounce = this.scene.add.tween({
             targets: this,

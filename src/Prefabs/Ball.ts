@@ -9,7 +9,7 @@ export default class Ball extends Phaser.Physics.Arcade.Sprite {
     }
 
     public Color: "red" | "blue";
-    private speedY = 500;
+    private maxSpeed = 300;
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         super(scene, x, y, Ball.assetKey);
@@ -20,21 +20,20 @@ export default class Ball extends Phaser.Physics.Arcade.Sprite {
         
         this.setCollideWorldBounds(true);        
 
-        this.setMaxVelocity(700, 500);
-
-        this.setDragX(50);
+        this.setMaxVelocity(this.maxSpeed, this.maxSpeed);
 
         this.scene.add.tween({
             targets: this,
             props: {
-                scale: {
-                    value: 2,
+                alpha: {
+                    getEnd: () => 0,
+                    getStart: () => 1,
                     duration: 500,
-                    yoyo: true,
+                    yoyo: true
                 },
             },
             repeat: 2,
-            onComplete: () => this.setVelocityY(this.speedY)
+            onComplete: () => this.setVelocityY(this.maxSpeed)
         });      
     }
 
@@ -52,8 +51,6 @@ export default class Ball extends Phaser.Physics.Arcade.Sprite {
         this.scene.registry.set(PlayerScore(playerAtFault), currentScore - 5);
 
         this.scene.cameras.main.shake();
-
-        // TODO: Some dramatic sound maybe?
 
         super.destroy();
     }
