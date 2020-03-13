@@ -12,6 +12,9 @@ new Phaser.Game({
         mode: Phaser.Scale.ScaleModes.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
+    input: {
+        activePointers: 5,
+    },
     render: {
         transparent: true
     }
