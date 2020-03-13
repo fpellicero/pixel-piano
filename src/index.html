@@ -8,19 +8,27 @@
     <style>
         body {
             background: lightblue;
-            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         h1 {
             font-size: 32px;
-            font-family: 'Press Start 2P', cursive;
+            font-family: 'Press Start 2P', cursive;         
+        }
+        .game-container {
             width: 100%;
-            text-align: center;
+            flex: 1;
         }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
     <h1>Pixel Piano</h1>
-    <div id="game-root"/>
+    <div class="game-container">
+        <div id="game-root"/>
+    </div>
 </body>
 </html>
