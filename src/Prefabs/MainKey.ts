@@ -6,11 +6,11 @@ export default class MainKey extends Key {
     super(scene, x, y, "main", note);
 
     scene.make.text({
-      x: x - 4,
-      y: y + 6,
+      x: x - 2,
+      y: y + 8,
       text: note.slice(0, 1),
       style: {
-        font: "12px monospace",
+        font: "8px monospace",
         fill: "#000"
       }
     })
