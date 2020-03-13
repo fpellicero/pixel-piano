@@ -1,17 +1,25 @@
 import Phaser from "phaser";
 import Tone from "tone";
 
-export default class Key extends Phaser.GameObjects.Sprite {
+
+const getPressedTexture = (keyType: string) => keyType === "main" ? "key-pressed" : "high-key-pressed";
+const getUnpressedTexture = (keyType: string) => keyType === "main" ? "key-unpressed" : "high-key-unpressed";
+export default abstract class Key extends Phaser.GameObjects.Sprite {
 
   static Preload(scene: Phaser.Scene) {
     scene.load.image("key-unpressed", "assets/keyboard-key-unpressed.png");
     scene.load.image("key-pressed", "assets/keyboard-key-pressed.png")
+    scene.load.image("high-key-unpressed", "assets/keyboard-high-key-unpressed.png");
+    scene.load.image("high-key-pressed", "assets/keyboard-high-key-pressed.png");
   }
 
   private isPressed = false;
   private _synth = new Tone.Synth().toMaster();
-  constructor(scene: Phaser.Scene, x: number, y: number, private note: string) {
-    super(scene, x, y, "key-unpressed");
+  scale = 2;
+  constructor(scene: Phaser.Scene, x: number, y: number, private keyType: "main" | "high", private note: string) {
+    super(scene, x, y, getUnpressedTexture(keyType));
+
+    
 
     scene.add.existing(this);
     this.setInteractive();
@@ -25,14 +33,14 @@ export default class Key extends Phaser.GameObjects.Sprite {
   private keyPress = () => {
     this.isPressed = true;
     
-    this.setTexture("key-pressed");
+    this.setTexture(getPressedTexture(this.keyType));
     this._synth.triggerAttack(this.note, '+0.05');
   }
 
   private keyup = () => {
     this.isPressed = false;
 
-    this.setTexture("key-unpressed");
+    this.setTexture(getUnpressedTexture(this.keyType));
     this._synth.triggerRelease();
   }
 
