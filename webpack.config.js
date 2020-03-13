@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     entry: "./src",
@@ -15,10 +16,6 @@ module.exports = {
                 test: /.ts$/,
                 exclude: /(node_modules|dist)/,
                 loader: 'ts-loader'
-            },
-            {
-                test: /.ejs$/,
-                loader: "ejs-compiled-loader"
             },
             {
                 test: /\.css$/i,
@@ -41,6 +38,7 @@ module.exports = {
             { from: "./assets", to: "./assets" }
         ]),
         new MiniCssExtractPlugin(),
+        // new CleanWebpackPlugin(),
         /* new BundleAnalyzerPlugin({
             analyzerMode: "static"
         }) */

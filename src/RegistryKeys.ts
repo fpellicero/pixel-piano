@@ -1,1 +1,0 @@
-export const PlayerScore = (color: "red" | "blue") => `score-${color}`;
