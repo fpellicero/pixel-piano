@@ -3,7 +3,6 @@ import withProgressBar from "../Enhancers/withProgressBar";
 import Key from "../Prefabs/Key";
 import MainKey from "../Prefabs/MainKey";
 import HighKey from "../Prefabs/HighKey";
-import Config from "../game.config";
 
 @withProgressBar
 export default class KeyboardScene extends Phaser.Scene {
@@ -69,15 +68,14 @@ export default class KeyboardScene extends Phaser.Scene {
       this.cameras.main.height / 2,
       "frame"
     );
-    keyboard.scale = Config.SCALE;
 
     // Add main keys
     const scene = this;
     this._mainKeys.forEach(function(key, i) {
       new MainKey(
         scene, 
-        18 * Config.SCALE + i * 11 * Config.SCALE, 
-        44 * Config.SCALE, 
+        36 + i * 22, 
+        88, 
         key
       );
     });
@@ -88,8 +86,8 @@ export default class KeyboardScene extends Phaser.Scene {
       
       new HighKey(
         scene,
-        23 * Config.SCALE + i * 11 * Config.SCALE,
-        39 * Config.SCALE,
+        46 + i * 22,
+        78,
         key
       );
     })

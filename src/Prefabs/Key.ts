@@ -14,8 +14,7 @@ export default abstract class Key extends Phaser.GameObjects.Sprite {
   }
 
   private isPressed = false;
-  private _synth = new Tone.Synth().toMaster();
-  scale = 2;
+  private _synth = new Tone.Synth().toMaster();  
   constructor(scene: Phaser.Scene, x: number, y: number, private keyType: "main" | "high", private note: string) {
     super(scene, x, y, getUnpressedTexture(keyType));
 
