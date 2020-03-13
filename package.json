@@ -6,19 +6,17 @@
     "scripts": {
         "dev": "webpack-dev-server --mode=development",
         "start": "npm run build && serve -s dist",
-        "build": "webpack --mode=production"
+        "build": "webpack --mode=production",
+        "predeploy": "yarn build",
+        "deploy": "gh-pages -d dist"
     },
     "author": "Francesc Pellicero <fpellicero@gmail.com> (https://github.com/fpellicero)",
-    "license": "ISC",
-    "husky": {
-        "hooks": {
-            "pre-commit": "npm run build && git add dist"
-        }
-    },
+    "license": "ISC",    
     "devDependencies": {
         "@types/lodash": "^4.14.141",
         "copy-webpack-plugin": "^5.0.4",
         "css-loader": "^3.2.0",
+        "gh-pages": "^2.2.0",
         "html-webpack-plugin": "^3.2.0",
         "husky": "^3.0.5",
         "lodash": "^4.17.15",
