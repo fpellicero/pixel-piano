@@ -1,10 +1,10 @@
 import Phaser from "phaser";
 
 export default class ProgressBar {  
-    private width: number = 250;
-    private heigth: number = 50;
+    private width: number = 64;
+    private heigth: number = 16;
     private textStyle = {
-        font: "20px monospace",
+        font: "8px monospace",
         fill: "#FFF"
     };
 
