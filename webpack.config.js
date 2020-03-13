@@ -1,9 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     entry: "./src",
@@ -17,14 +15,6 @@ module.exports = {
                 exclude: /(node_modules|dist)/,
                 loader: 'ts-loader'
             },
-            {
-                test: /\.css$/i,
-                use: [{
-                        loader: MiniCssExtractPlugin.loader
-                    },
-                    'css-loader'
-                ],
-            },
         ]
     },
     optimization: {
@@ -37,8 +27,6 @@ module.exports = {
         new CopyPlugin([
             { from: "./assets", to: "./assets" }
         ]),
-        new MiniCssExtractPlugin(),
-        // new CleanWebpackPlugin(),
         /* new BundleAnalyzerPlugin({
             analyzerMode: "static"
         }) */
