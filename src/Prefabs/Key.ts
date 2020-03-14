@@ -1,10 +1,9 @@
 import Phaser from "phaser";
-import Tone from "tone";
+import { noteOnEvent, noteOffEvent, Events } from "./SoundPlayer";
 
 
 const getPressedTexture = (keyType: string) => keyType === "main" ? "key-pressed" : "high-key-pressed";
 const getUnpressedTexture = (keyType: string) => keyType === "main" ? "key-unpressed" : "high-key-unpressed";
-const Synth = new Tone.PolySynth(4, Tone.Synth).toMaster();
 export default abstract class Key extends Phaser.GameObjects.Sprite {
 
   static Preload(scene: Phaser.Scene) {
@@ -21,29 +20,41 @@ export default abstract class Key extends Phaser.GameObjects.Sprite {
     scene.add.existing(this);
     this.setInteractive();
 
-    this.on("pointerdown", this.keyPress);
+    this.on("pointerdown", this.pointerDown);
     this.on("pointermove", this.pointerMove)
     this.on("pointerup", this.keyup);
     this.on("pointerout", this.keyup);
+
+    window.addEventListener(Events.NOTE_ON, this.noteOn);
+    window.addEventListener(Events.NOTE_OFF, this.noteOff)
   }
 
-  public keyPress = () => {
+  private noteOn = (e: CustomEvent<string>) => {
+    if (e.detail !== this.note) return;
+
     this.isPressed = true;
-    
     this.setTexture(getPressedTexture(this.keyType));
-    Synth.triggerAttack(this.note);
+  }
+
+  private noteOff = (e: CustomEvent<string>) => {
+    if(e.detail !== this.note) return;
+
+    this.isPressed = false;
+    this.setTexture(getUnpressedTexture(this.keyType))
+  }
+
+  public pointerDown = () => {
+    noteOnEvent(this.note);
   }
 
   public keyup = () => {
-    this.isPressed = false;
-
-    this.setTexture(getUnpressedTexture(this.keyType));
-    Synth.triggerRelease(this.note);
+    if (!this.isPressed) return;
+    noteOffEvent(this.note);
   }
 
   private pointerMove = (pointer: Phaser.Input.Pointer) => {
     if (!this.isPressed && pointer.isDown) {
-      this.keyPress();
+      this.pointerDown();
     }
   }
 }

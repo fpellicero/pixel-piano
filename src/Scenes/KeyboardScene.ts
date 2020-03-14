@@ -3,30 +3,29 @@ import withProgressBar from "../Enhancers/withProgressBar";
 import Key from "../Prefabs/Key";
 import MainKey from "../Prefabs/MainKey";
 import HighKey from "../Prefabs/HighKey";
-import ToZanarkand from "../Songs/ToZanarkand";
+import SoundPlayer from "../Prefabs/SoundPlayer";
+
+enum Assets {
+  KEYBOARD_FRAME = "keyboard-frame",
+  REC_BUTTON_PRESSED = "rec-button-pressed",
+  REC_BUTTON_UNPRESSED = "rec-button-unpressed",
+  RED_PILOT_OFF = "red-pilot-off",
+  RED_PILOT_ON = "red-pilot-on",
+  PLAY_ICON = "play-icon",
+  DELETE_ICON = "delete-icon"
+}
 
 @withProgressBar
 export default class KeyboardScene extends Phaser.Scene {
   public static key = "keyboard-scene";
 
   public preload() {
-    this.load.image("frame", "assets/keyboard-frame.png");
-    Key.Preload(this);
-  }
 
-  public play(song: Song) {
-    if (song.length === 0) return;
+    Object.values(Assets).forEach((value) => {
+      this.load.image(value, `assets/${value}.png`);
+    });
     
-    const {key, duration} = song.slice(0, 1)[0];
-
-    const currentKey = this.Keys.find(k => k.note === key);
-
-    currentKey.keyPress();
-
-    setTimeout(() => {
-      currentKey.keyup();
-      this.play(song.slice(1));
-    }, duration);
+    Key.Preload(this);
   }
 
   private _mainKeys = [
@@ -77,13 +76,14 @@ export default class KeyboardScene extends Phaser.Scene {
   ]
 
   private Keys: Key[] = [];
+  private SoundPlayer = new SoundPlayer();
   public create() {
     this.cameras.main.setBackgroundColor()
     // Add keyboard frame
     const keyboard = this.add.sprite(
       this.cameras.main.width / 2,
       this.cameras.main.height / 2,
-      "frame"
+      Assets.KEYBOARD_FRAME
     );
 
     // Add main keys
@@ -109,8 +109,92 @@ export default class KeyboardScene extends Phaser.Scene {
       ));
     })
 
+    this.makeRecButton();
+    this.createRecordingList();
+    
+
+
     // setTimeout(() => {
     //   this.play(ToZanarkand);
     // }, 1000);
+  }
+
+  private makeRecButton() {
+    // Add REC button
+    const recButton = this.add.sprite(227, 52, Assets.REC_BUTTON_UNPRESSED);
+
+    // Add rec light
+    const recLight = this.add.image(120, 30, Assets.RED_PILOT_OFF)
+
+    recButton.setInteractive()
+
+    let isRecording = false;
+    
+    recButton.on("pointerdown", () => {
+      if (isRecording) {
+        this.SoundPlayer.StopRecording();
+        recButton.setTexture(Assets.REC_BUTTON_UNPRESSED);
+        recLight.setTexture(Assets.RED_PILOT_OFF);
+        this.createRecordingList();
+      } else {
+        this.SoundPlayer.StartRecording();
+        recButton.setTexture(Assets.REC_BUTTON_PRESSED);
+        recLight.setTexture(Assets.RED_PILOT_ON);
+      }
+      isRecording = !isRecording;
+    });
+
+    
+  }
+
+  private recordingList: Phaser.GameObjects.Group;
+  private createRecordingList() {
+    if (!this.recordingList) {
+      this.recordingList = this.add.group();
+    }
+
+    this.recordingList.clear(true, true);
+    
+    const recordings = this.SoundPlayer.GetRecordings();
+    
+    const scene = this;
+
+    const startX = 330;
+    const columnWidth = 70;
+    const itemsPerColumn = 4;
+    recordings.forEach(({name, song}, i) => {
+      const x = startX + Math.floor(i / itemsPerColumn) * columnWidth;
+      const playButton = scene.add.sprite(
+        x, 
+        27 + 8 * (i % itemsPerColumn), 
+        Assets.PLAY_ICON
+      );
+      playButton.setInteractive();
+
+      playButton.on("pointerdown", () => scene.SoundPlayer.Play(song))
+
+      const deleteButton = scene.add.image(
+        x + 7,
+        27 + 8 * (i % itemsPerColumn),
+        Assets.DELETE_ICON
+      );
+      deleteButton.setInteractive();
+
+      deleteButton.on("pointerdown", function() {
+        scene.SoundPlayer.Delete(name);
+        scene.createRecordingList();
+      })
+
+      const label = scene.add.text(
+        x + 15, 
+        24 + 8 * (i % itemsPerColumn), 
+        name, 
+        {font: "6px monospace", fill: "#FFF"}
+      );
+
+      this.recordingList.add(playButton);
+      this.recordingList.add(deleteButton);
+      this.recordingList.add(label);
+    })
   }
 }
