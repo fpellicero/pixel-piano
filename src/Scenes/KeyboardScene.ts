@@ -3,6 +3,7 @@ import withProgressBar from "../Enhancers/withProgressBar";
 import Key from "../Prefabs/Key";
 import MainKey from "../Prefabs/MainKey";
 import HighKey from "../Prefabs/HighKey";
+import ToZanarkand from "../Songs/ToZanarkand";
 
 @withProgressBar
 export default class KeyboardScene extends Phaser.Scene {
@@ -11,6 +12,21 @@ export default class KeyboardScene extends Phaser.Scene {
   public preload() {
     this.load.image("frame", "assets/keyboard-frame.png");
     Key.Preload(this);
+  }
+
+  public play(song: Song) {
+    if (song.length === 0) return;
+    
+    const {key, duration} = song.slice(0, 1)[0];
+
+    const currentKey = this.Keys.find(k => k.note === key);
+
+    currentKey.keyPress();
+
+    setTimeout(() => {
+      currentKey.keyup();
+      this.play(song.slice(1));
+    }, duration);
   }
 
   private _mainKeys = [
@@ -60,6 +76,7 @@ export default class KeyboardScene extends Phaser.Scene {
     "A#5"
   ]
 
+  private Keys: Key[] = [];
   public create() {
     this.cameras.main.setBackgroundColor()
     // Add keyboard frame
@@ -72,24 +89,28 @@ export default class KeyboardScene extends Phaser.Scene {
     // Add main keys
     const scene = this;
     this._mainKeys.forEach(function(key, i) {
-      new MainKey(
+      scene.Keys.push(new MainKey(
         scene, 
         36 + i * 22, 
         88, 
         key
-      );
+      ));
     });
 
     // Add high keys
-    this._highKeys.forEach((key, i) => {
+    this._highKeys.forEach(function (key, i) {
       if (!key) return;
       
-      new HighKey(
+      scene.Keys.push(new HighKey(
         scene,
         46 + i * 22,
         78,
         key
-      );
+      ));
     })
+
+    // setTimeout(() => {
+    //   this.play(ToZanarkand);
+    // }, 1000);
   }
 }

@@ -15,10 +15,8 @@ export default abstract class Key extends Phaser.GameObjects.Sprite {
   }
 
   private isPressed = false;
-  constructor(scene: Phaser.Scene, x: number, y: number, private keyType: "main" | "high", private note: string) {
+  constructor(scene: Phaser.Scene, x: number, y: number, private keyType: "main" | "high", public note: string) {
     super(scene, x, y, getUnpressedTexture(keyType));
-
-    
 
     scene.add.existing(this);
     this.setInteractive();
@@ -29,14 +27,14 @@ export default abstract class Key extends Phaser.GameObjects.Sprite {
     this.on("pointerout", this.keyup);
   }
 
-  private keyPress = () => {
+  public keyPress = () => {
     this.isPressed = true;
     
     this.setTexture(getPressedTexture(this.keyType));
     Synth.triggerAttack(this.note);
   }
 
-  private keyup = () => {
+  public keyup = () => {
     this.isPressed = false;
 
     this.setTexture(getUnpressedTexture(this.keyType));
